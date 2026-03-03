@@ -785,6 +785,8 @@
           : '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
         document.getElementById('offline-name').textContent = displayName;
 
+        streamIframe.dataset.cbUsername = cbUsername || '';
+
         if (cbUsername && isLive) {
           streamIframe.src = `https://chaturbate.com/embed/${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
         } else {
@@ -833,6 +835,59 @@
     }
 
     init();
+
+    // ── Live status polling — checks every 60 seconds ──
+    async function pollLiveStatus(nameSlug, cbUsername, displayName) {
+      try {
+        const res = await fetch(`${WORKER_URL}?name=${encodeURIComponent(nameSlug)}`);
+        if (!res.ok) return;
+        const record = await res.json();
+        const isLive = record.fields?.Is_Live || false;
+
+        const currentlyLive = document.getElementById('live-pill').style.display !== 'none';
+        if (isLive === currentlyLive) return; // no change, do nothing
+
+        // Status changed — update UI
+        const livePill   = document.getElementById('live-pill');
+        const streamIframe  = document.getElementById('stream-iframe');
+        const streamOffline = document.getElementById('stream-offline');
+        const streamTitle   = document.getElementById('stream-title');
+        const statusLabel   = document.getElementById('stream-status-label');
+
+        if (isLive) {
+          // Went live
+          livePill.style.display = 'flex';
+          streamOffline.classList.remove('visible');
+          streamIframe.style.display = 'block';
+          streamIframe.src = `https://chaturbate.com/embed/${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
+          streamTitle.textContent = `${displayName} is Live`;
+          statusLabel.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block;"></span>Live Now</span>';
+        } else {
+          // Went offline
+          livePill.style.display = 'none';
+          streamIframe.style.display = 'none';
+          streamIframe.src = '';
+          streamOffline.classList.add('visible');
+          streamTitle.textContent = `Watch ${displayName}`;
+          statusLabel.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
+        }
+
+      } catch {
+        // Silently fail — don't disrupt the page
+      }
+    }
+
+    // Start polling after page loads, every 60 seconds
+    window.addEventListener('load', () => {
+      const params      = new URLSearchParams(window.location.search);
+      const nameSlug    = params.get('name');
+      const cbUsername  = document.getElementById('stream-iframe').dataset.cbUsername || '';
+      const displayName = document.getElementById('model-name').textContent;
+
+      if (nameSlug && displayName) {
+        setInterval(() => pollLiveStatus(nameSlug, cbUsername, displayName), 60000);
+      }
+    });
   </script>
 </body>
 </html>
