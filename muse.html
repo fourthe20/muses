@@ -662,19 +662,9 @@
     }
 
     async function checkCBLive(username) {
+      // CB API is CORS-blocked in browser — let the embed handle online/offline state natively
       if (!username) return false;
-      try {
-        const res = await fetch(
-          `https://chaturbate.com/api/public/affiliates/onlinerooms/?wm=Jz7oe&format=json&username=${username.toLowerCase()}&limit=1`,
-          { headers: { 'Accept': 'application/json' } }
-        );
-        if (!res.ok) return false;
-        const json = await res.json();
-        const results = json.results || [];
-        return results.some(r => (r.username || r.slug || '').toLowerCase() === username.toLowerCase());
-      } catch {
-        return false;
-      }
+      return true; // Always render embed; CB shows offline room if not streaming
     }
 
     async function init() {
@@ -810,7 +800,7 @@
 
         if (cbUsername) {
           // Always show embed — CB handles offline state natively
-          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
+          streamIframe.src = `https://chaturbate.com/${cbUsername}/?campaign=Jz7oe`;
         } else {
           streamIframe.style.display = 'none';
           streamOffline.classList.add('visible');
@@ -882,7 +872,7 @@
           livePill.style.display = 'flex';
           streamOffline.classList.remove('visible');
           streamIframe.style.display = 'block';
-          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
+          streamIframe.src = `https://chaturbate.com/${cbUsername}/?campaign=Jz7oe`;
           streamTitle.textContent = `${displayName} is Live`;
           statusLabel.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block;"></span>Live Now</span>';
         } else {
