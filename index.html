@@ -716,7 +716,7 @@
     // ============================================================
     // CONFIG — Only update WORKER_URL after deploying Cloudflare Worker
     // ============================================================
-    const WORKER_URL = 'https://muse.four-the20.workers.dev/'; // e.g. https://four-the20-muses.yourname.workers.dev
+    const WORKER_URL = 'YOUR_WORKER_URL'; // e.g. https://four-the20-muses.yourname.workers.dev
 
     // CB affiliate base URL
     const CB_AFFILIATE = 'https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=';
@@ -724,6 +724,10 @@
     // Fields: Name · Handle · Bio · Photo · Tags · CB_Username · Fansly_URL · Is_Live · Approved
 
     const CB_AFF = CB_AFFILIATE;
+
+    function toSlug(str) {
+      return (str || '').toLowerCase().replace(/\s+/g, '-');
+    }
 
     async function fetchMuses() {
       try {
@@ -752,8 +756,9 @@
         ? `${CB_AFF}${cbUsername}`
         : `https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=four_the20`;
 
-      const watchLink  = cbUsername ? cbLink : (fanslyUrl || cbLink);
-      const detailLink  = `/muses/muse.html?username=${cbUsername || ''}`.replace('?username=', cbUsername ? '?username=' : '?id=' + record.id);
+      const watchLink   = cbUsername ? cbLink : (fanslyUrl || cbLink);
+      const displayName = f['DisplayName'] || f['Name'] || cbUsername || '';
+      const detailLink  = displayName ? `/muses/muse.html?name=${toSlug(displayName)}` : null;
       const followLink = fanslyUrl || cbLink;
 
       const liveBadge = isLive
@@ -773,10 +778,10 @@
       card.dataset.cb      = cbUsername ? 'true' : 'false';
 
       card.style.cursor = 'pointer';
-      if (cbUsername) {
+      if (detailLink) {
         card.addEventListener('click', (e) => {
           if (!e.target.closest('a')) {
-            window.location.href = `/muses/muse.html?username=${cbUsername}`;
+            window.location.href = detailLink;
           }
         });
       }
@@ -791,7 +796,7 @@
           <div class="card-bio">${bio}</div>
           <div class="card-tags">${tagsHtml}</div>
           <div class="card-actions">
-            <a href="${watchLink}" target="_blank" class="btn-watch">Watch Live</a>
+            <a href="${detailLink || watchLink}" ${detailLink ? '' : 'target="_blank"'} class="btn-watch">View Profile</a>
             ${followLink ? `<a href="${followLink}" target="_blank" class="btn-follow">Follow</a>` : ''}
           </div>
         </div>
