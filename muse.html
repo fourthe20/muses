@@ -802,8 +802,7 @@
           // Always show embed — CB handles offline state natively
           streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
         } else {
-          streamIframe.style.display = 'none';
-          streamOffline.classList.add('visible');
+          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
         }
 
         // ── More muses ──
@@ -818,7 +817,7 @@
           const mf    = r.fields;
           const mName = mf['DisplayName'] || mf['Name'] || '';
           const mSlug = toSlug(mName);
-          const mPhoto = mf['Profile Pic'] && mf['Photo'][0] ? mf['Photo'][0].url : null;
+          const mPhoto = mf['Photo'] && mf['Photo'][0] ? mf['Photo'][0].url : null;
           return `
             <a href="/muses/muse.html?name=${mSlug}" class="more-card">
               ${mPhoto
@@ -879,7 +878,7 @@
           // Went offline
           livePill.style.display = 'none';
           streamIframe.style.display = 'none';
-          streamIframe.src = '';
+          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
           streamOffline.classList.add('visible');
           streamTitle.textContent = `Watch ${displayName}`;
           statusLabel.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
