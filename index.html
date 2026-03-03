@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Muses — Four The20</title>
+  <title>Four The20 — Muse</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -12,17 +12,14 @@
       --card: #131313;
       --gold: #c9a84c;
       --gold-dim: #a07830;
-      --green: #3a6b35;
       --green-bright: #4ade80;
       --cream: #f0e6cc;
-      --red: #c0392b;
       --white: #f5f5f0;
       --muted: #555;
       --border: rgba(201,168,76,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -30,26 +27,22 @@
       color: var(--white);
       font-family: 'DM Mono', monospace;
       min-height: 100vh;
-      cursor: default;
     }
 
-    /* GRAIN OVERLAY */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 1000;
+      z-index: 999;
       opacity: 0.4;
     }
 
     /* HEADER */
     header {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       padding: 1.2rem 2.5rem;
       display: flex;
@@ -69,17 +62,9 @@
       text-decoration: none;
       text-transform: uppercase;
     }
+    .logo span { color: var(--white); }
 
-    .logo span {
-      color: var(--white);
-    }
-
-    nav {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
+    nav { display: flex; gap: 2rem; align-items: center; }
     nav a {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
@@ -88,412 +73,30 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-
     nav a:hover { color: var(--gold); }
 
-    .nav-cta {
-      border: 1px solid var(--gold) !important;
-      padding: 0.5rem 1.2rem !important;
-      color: var(--gold) !important;
-      transition: all 0.2s !important;
-    }
-
-    .nav-cta:hover {
-      background: var(--gold) !important;
-      color: var(--black) !important;
-    }
-
-    /* HERO */
-    .hero {
-      padding: 14rem 2.5rem 6rem;
-      max-width: 1400px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .hero-eyebrow::after {
-      content: '';
-      width: 60px;
-      height: 1px;
-      background: var(--gold);
-      display: inline-block;
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      margin-bottom: 2rem;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .hero-sub {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-      max-width: 400px;
-      line-height: 1.8;
-      text-transform: uppercase;
-    }
-
-    .hero-line {
-      position: absolute;
-      right: 2.5rem;
-      top: 14rem;
-      width: 1px;
-      height: 120px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-    }
-
-    /* STATUS BAR */
-    .status-bar {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 0.8rem 2.5rem;
-      display: flex;
-      gap: 3rem;
-      align-items: center;
-      background: var(--deep);
-      overflow-x: auto;
-    }
-
-    .status-item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      white-space: nowrap;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green-bright);
-      animation: pulse 2s infinite;
-    }
-
-    .status-dot.offline { background: var(--muted); animation: none; }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .status-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .status-count {
-      font-size: 0.6rem;
-      color: var(--green-bright);
-      letter-spacing: 0.1em;
-    }
-
-    /* FILTERS */
-    .filters {
-      padding: 2.5rem 2.5rem 1.5rem;
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .filter-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-right: 0.5rem;
-    }
-
-    .filter-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 0.4rem 1rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .filter-btn:hover, .filter-btn.active {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-
-    /* GRID */
-    .grid-section {
-      padding: 1rem 2.5rem 6rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5px;
-    }
-
-    /* CARD */
-    .card {
-      position: relative;
-      background: var(--card);
-      overflow: hidden;
-      cursor: pointer;
-      aspect-ratio: 3/4;
-      border: 1px solid var(--border);
-      transition: border-color 0.3s;
-    }
-
-    .card:hover { border-color: var(--gold-dim); }
-
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s ease, filter 0.3s ease;
-      filter: grayscale(20%) contrast(1.1);
-    }
-
-    .card:hover .card-img {
-      transform: scale(1.04);
-      filter: grayscale(0%) contrast(1.05);
-    }
-
-    .card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(8,8,8,0.98) 0%,
-        rgba(8,8,8,0.5) 45%,
-        rgba(8,8,8,0.1) 70%,
-        transparent 100%
-      );
-      transition: opacity 0.3s;
-    }
-
-    .card-live-badge {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(8,8,8,0.8);
-      border: 1px solid var(--green-bright);
-      padding: 0.3rem 0.7rem;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--green-bright);
-    }
-
-    .card-live-badge.offline-badge {
-      border-color: var(--muted);
-      color: var(--muted);
-    }
-
-    .card-number {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.2);
-    }
-
-    .card-content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1.5rem;
-      transform: translateY(2rem);
-      transition: transform 0.4s ease;
-    }
-
-    .card:hover .card-content { transform: translateY(0); }
-
-    .card-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-      color: var(--white);
-    }
-
-    .card-handle {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      margin-bottom: 0.8rem;
-    }
-
-    .card-bio {
-      font-size: 0.65rem;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 1.2rem;
-      opacity: 0;
-      transition: opacity 0.4s ease 0.1s;
-    }
-
-    .card:hover .card-bio { opacity: 1; }
-
-    .card-tags {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-      opacity: 0;
-      transition: opacity 0.4s ease 0.15s;
-    }
-
-    .card:hover .card-tags { opacity: 1; }
-
-    .tag {
-      font-size: 0.5rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      border: 1px solid rgba(201,168,76,0.3);
-      color: var(--gold-dim);
-      padding: 0.2rem 0.5rem;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 0.6rem;
-      opacity: 0;
-      transition: opacity 0.4s ease 0.2s;
-    }
-
-    .card:hover .card-actions { opacity: 1; }
-
-    .btn-watch {
-      flex: 1;
-      background: var(--gold);
-      color: var(--black);
-      border: none;
-      padding: 0.7rem 1rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      display: block;
-      transition: background 0.2s;
-      font-weight: 500;
-    }
-
-    .btn-watch:hover { background: var(--cream); }
-
-    .btn-follow {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 0.7rem 1rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      display: block;
-      transition: all 0.2s;
-    }
-
-    .btn-follow:hover {
-      border-color: var(--white);
-    }
-
-    /* PLACEHOLDER CARD */
-    .card-placeholder {
-      background: var(--card);
-      border: 1px dashed rgba(201,168,76,0.1);
-      aspect-ratio: 3/4;
+    /* LOADING */
+    #loading {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
       gap: 1rem;
-      text-decoration: none;
-      transition: border-color 0.3s;
     }
-
-    .card-placeholder:hover { border-color: rgba(201,168,76,0.3); }
-
-    .placeholder-icon {
-      font-size: 2rem;
-      opacity: 0.2;
-    }
-
-    .placeholder-text {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* LOADING */
-    #loading {
-      padding: 6rem 2.5rem;
-      text-align: center;
-    }
-
-    .loader {
-      display: inline-flex;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
-    }
-
+    .loader { display: flex; gap: 0.4rem; }
     .loader-dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       background: var(--gold);
       border-radius: 50%;
       animation: loaderPulse 1.2s infinite;
     }
-
     .loader-dot:nth-child(2) { animation-delay: 0.2s; }
     .loader-dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes loaderPulse {
       0%, 100% { opacity: 0.2; transform: scale(0.8); }
       50% { opacity: 1; transform: scale(1); }
     }
-
     .loader-text {
       font-size: 0.6rem;
       letter-spacing: 0.3em;
@@ -501,18 +104,403 @@
       color: var(--muted);
     }
 
-    /* ERROR */
-    #error {
-      display: none;
-      padding: 4rem 2.5rem;
-      text-align: center;
+    /* PAGE */
+    #content { display: none; padding-top: 65px; }
+
+    /* ── HERO: photo left + identity right ── */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 480px 1fr;
+      min-height: 85vh;
+      border-bottom: 1px solid var(--border);
     }
 
-    .error-text {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
+    .hero-photo {
+      position: relative;
+      overflow: hidden;
+      background: var(--deep);
+    }
+    .hero-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(10%) contrast(1.05);
+      display: block;
+    }
+    .hero-photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: var(--border);
+      font-style: italic;
+    }
+
+    .live-pill {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(8,8,8,0.85);
+      border: 1px solid var(--green-bright);
+      padding: 0.35rem 0.8rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      backdrop-filter: blur(6px);
+    }
+    .live-pill.offline {
+      border-color: var(--muted);
       color: var(--muted);
-      margin-bottom: 1rem;
+    }
+    .live-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      animation: pulse 2s infinite;
+    }
+    .live-dot.off { background: var(--muted); animation: none; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero-identity {
+      padding: 3rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+    }
+
+    .identity-top {}
+
+    .eyebrow {
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .model-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .model-handle {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .model-bio {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.45);
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+
+    /* STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .stat-cell {
+      padding: 1rem 1.2rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-cell:nth-child(even) { border-right: none; }
+    .stat-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+    .stat-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-value {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+
+    .stat-value.empty { color: var(--muted); }
+
+    /* TAGS */
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+    }
+    .tag {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--gold-dim);
+      padding: 0.25rem 0.6rem;
+    }
+
+    /* ACTION BUTTONS */
+    .actions-row {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s;
+      border: none;
+      display: inline-block;
+    }
+    .btn-primary { background: var(--gold); color: var(--black); font-weight: 500; }
+    .btn-primary:hover { background: var(--cream); }
+    .btn-tip { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+    .btn-tip:hover { background: var(--gold); color: var(--black); }
+    .btn-secondary { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.15); }
+    .btn-secondary:hover { border-color: var(--white); }
+
+    /* ── GALLERY ── */
+    .gallery-section {
+      padding: 3rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-style: italic;
+    }
+
+    .section-meta {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--card);
+      cursor: pointer;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      filter: grayscale(15%);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      filter: grayscale(0%);
+    }
+
+    .gallery-empty {
+      grid-column: 1/-1;
+      padding: 3rem;
+      text-align: center;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--white); }
+
+    /* ── STREAM SECTION ── */
+    .stream-section {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stream-header {
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stream-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+    }
+
+    .stream-body {
+      position: relative;
+      background: #000;
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+
+    .stream-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+    }
+
+    .stream-offline {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: var(--deep);
+    }
+    .stream-offline.visible { display: flex; }
+    .offline-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-style: italic;
+      color: var(--gold);
+      opacity: 0.2;
+    }
+    .offline-text {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── MORE MUSES ── */
+    .more-section {
+      padding: 2.5rem;
+      background: var(--deep);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .more-grid {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .more-card {
+      flex: 0 0 180px;
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .more-card:hover { border-color: var(--gold-dim); }
+    .more-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%);
+      transition: all 0.3s;
+    }
+    .more-card:hover img { filter: grayscale(0%); }
+    .more-card-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.8rem;
+      background: linear-gradient(to top, rgba(8,8,8,0.95), transparent);
+    }
+    .more-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .more-card-placeholder {
+      flex: 0 0 180px;
+      aspect-ratio: 3/4;
+      background: var(--card);
+      border: 1px dashed rgba(201,168,76,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
     }
 
     /* FOOTER */
@@ -522,9 +510,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: gap;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
-
     .footer-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1rem;
@@ -532,12 +520,7 @@
       color: var(--gold);
       letter-spacing: 0.15em;
     }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-    }
-
+    .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
     .footer-links a {
       font-size: 0.6rem;
       letter-spacing: 0.2em;
@@ -546,338 +529,307 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-
     .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 0.55rem; color: rgba(85,85,85,0.5); }
 
-    .footer-copy {
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      color: rgba(85,85,85,0.5);
-    }
-
-    /* MARQUEE */
-    .marquee-wrap {
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 0.8rem 0;
-      background: var(--deep);
-    }
-
-    .marquee-track {
-      display: flex;
-      gap: 4rem;
-      animation: marquee 20s linear infinite;
-      width: max-content;
-    }
-
-    .marquee-item {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .marquee-item span { color: var(--gold); margin: 0 0.5rem; }
-
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    .fade-up { animation: fadeUp 0.5s ease forwards; }
 
-    .fade-up {
-      animation: fadeUp 0.6s ease forwards;
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
+      .hero-section { grid-template-columns: 1fr; }
+      .hero-photo { min-height: 60vw; max-height: 80vw; }
+      .hero-identity { padding: 2rem 1.5rem; }
       header { padding: 1rem 1.2rem; }
-      nav { gap: 1rem; }
-      .hero { padding: 10rem 1.2rem 4rem; }
-      .grid-section, .filters, .status-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
-      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-      .footer-links { flex-wrap: wrap; justify-content: center; }
-    }
-
-    @media (max-width: 480px) {
-      .grid { grid-template-columns: 1fr; }
+      .gallery-section, .more-section, .stream-header { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .actions-row { flex-direction: column; }
+      .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <a href="https://fourthe20.carrd.co" class="logo">Four<span>The</span>20</a>
     <nav>
+      <a href="/muses/">← All Muses</a>
       <a href="https://fourthe20.myshopify.com" target="_blank">Shop</a>
-      <a href="https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=four_the20" target="_blank">Live</a>
-      <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank" class="nav-cta">Become a Muse</a>
+      <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank">Become a Muse</a>
     </nav>
   </header>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap" style="margin-top:60px;">
-    <div class="marquee-track">
-      <span class="marquee-item">Smoke <span>✦</span> Screens <span>✦</span> Sex Appeal</span>
-      <span class="marquee-item">Raw <span>✦</span> Unfiltered <span>✦</span> Unapologetic</span>
-      <span class="marquee-item">Welcome to Your 20s <span>✦</span> Four The 20</span>
-      <span class="marquee-item">Smoke <span>✦</span> Screens <span>✦</span> Sex Appeal</span>
-      <span class="marquee-item">Raw <span>✦</span> Unfiltered <span>✦</span> Unapologetic</span>
-      <span class="marquee-item">Welcome to Your 20s <span>✦</span> Four The 20</span>
+  <div id="loading">
+    <div class="loader">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
     </div>
+    <p class="loader-text">Loading...</p>
   </div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow">The Muses</div>
-    <h1>The ones<br>worth <em>watching.</em></h1>
-    <p class="hero-sub">Curated creators. Each with a universe of their own. Admire, connect, or collaborate.</p>
-    <div class="hero-line"></div>
-  </section>
-
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <div class="status-item">
-      <div class="status-dot" id="live-dot"></div>
-      <span class="status-label">Live Now</span>
-      <span class="status-count" id="live-count">—</span>
-    </div>
-    <div class="status-item">
-      <div class="status-dot offline"></div>
-      <span class="status-label">Total Muses</span>
-      <span class="status-count" id="total-count">—</span>
-    </div>
-    <div class="status-item">
-      <div class="status-dot" style="background:var(--gold); animation:none;"></div>
-      <span class="status-label">Platform</span>
-      <span class="status-count" style="color:var(--gold);">Chaturbate + Fansly</span>
-    </div>
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
   </div>
 
-  <!-- FILTERS -->
-  <div class="filters">
-    <span class="filter-label">Filter —</span>
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="live">Live</button>
-    <button class="filter-btn" data-filter="fansly">Fansly</button>
-    <button class="filter-btn" data-filter="chaturbate">Chaturbate</button>
-  </div>
+  <div id="content">
 
-  <!-- GRID -->
-  <section class="grid-section">
-    <div id="loading">
-      <div class="loader">
-        <div class="loader-dot"></div>
-        <div class="loader-dot"></div>
-        <div class="loader-dot"></div>
+    <!-- HERO: photo + identity -->
+    <section class="hero-section">
+      <div class="hero-photo">
+        <div id="hero-photo-wrap" style="width:100%;height:100%;"></div>
+        <div class="live-pill" id="live-pill">
+          <div class="live-dot" id="live-dot"></div>
+          <span id="live-text">Offline</span>
+        </div>
       </div>
-      <p class="loader-text">Loading the muses...</p>
-    </div>
-    <div id="error">
-      <p class="error-text">Configure your Airtable credentials to load muses.</p>
-    </div>
-    <div class="grid" id="muse-grid"></div>
-  </section>
 
-  <!-- MARQUEE 2 -->
-  <div class="marquee-wrap">
-    <div class="marquee-track" style="animation-direction:reverse;">
-      <span class="marquee-item">Join The Network <span>✦</span> Become a Muse <span>✦</span> Turn Attention Into Income</span>
-      <span class="marquee-item">No Rules <span>✦</span> No Filters <span>✦</span> Just You Uncensored</span>
-      <span class="marquee-item">Join The Network <span>✦</span> Become a Muse <span>✦</span> Turn Attention Into Income</span>
-      <span class="marquee-item">No Rules <span>✦</span> No Filters <span>✦</span> Just You Uncensored</span>
-    </div>
+      <div class="hero-identity">
+        <div class="identity-top">
+          <div class="eyebrow">Four The20 Muse</div>
+          <div class="model-name" id="model-name"></div>
+          <div class="model-handle" id="model-handle"></div>
+          <div class="model-bio" id="model-bio"></div>
+
+          <div class="stats-grid" id="stats-grid"></div>
+
+          <div class="tags-row" id="tags-row"></div>
+        </div>
+
+        <div class="actions-row" id="actions-row"></div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery-section">
+      <div class="section-header">
+        <h2 class="section-title">Gallery</h2>
+        <span class="section-meta" id="gallery-count"></span>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+
+    <!-- STREAM -->
+    <section class="stream-section">
+      <div class="stream-header">
+        <div class="stream-title" id="stream-title">Watch Live</div>
+        <div id="stream-status-label" style="font-size:0.6rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;"></div>
+      </div>
+      <div class="stream-body">
+        <iframe id="stream-iframe" class="stream-iframe" src="" scrolling="no" allow="autoplay" allowfullscreen></iframe>
+        <div class="stream-offline" id="stream-offline">
+          <div class="offline-name" id="offline-name"></div>
+          <div class="offline-text">Currently offline</div>
+          <div class="offline-text" style="opacity:0.4;font-size:0.55rem;margin-top:0.5rem;">Follow on Fansly to know when she's back</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MORE MUSES -->
+    <section class="more-section">
+      <div class="section-meta">More Muses</div>
+      <div class="more-grid" id="more-grid"></div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">Four The20</div>
+      <div class="footer-links">
+        <a href="/muses/">Directory</a>
+        <a href="https://fourthe20.myshopify.com" target="_blank">Shop</a>
+        <a href="https://x.com/four_the20" target="_blank">X</a>
+        <a href="https://instagram.com/four_the20" target="_blank">Instagram</a>
+        <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank">Become a Muse</a>
+      </div>
+      <div class="footer-copy">© Four The20. All rights reserved.</div>
+    </footer>
+
   </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">Four The20</div>
-    <div class="footer-links">
-      <a href="https://fourthe20.carrd.co">Home</a>
-      <a href="https://fourthe20.myshopify.com" target="_blank">Shop</a>
-      <a href="https://x.com/four_the20" target="_blank">X</a>
-      <a href="https://instagram.com/four_the20" target="_blank">Instagram</a>
-      <a href="https://fansly.com/four_the20" target="_blank">Fansly</a>
-      <a href="https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=four_the20" target="_blank">Chaturbate</a>
-      <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank">Become a Muse</a>
-    </div>
-    <div class="footer-copy">© Four The20. All rights reserved.</div>
-  </footer>
 
   <script>
-    // ============================================================
-    // CONFIG — Only update WORKER_URL after deploying Cloudflare Worker
-    // ============================================================
-    const WORKER_URL = 'https://muse.four-the20.workers.dev/'; // e.g. https://four-the20-muses.yourname.workers.dev
-
-    // CB affiliate base URL
+    const WORKER_URL   = 'https://muse.four-the20.workers.dev/';
     const CB_AFFILIATE = 'https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=';
-
-    // Fields: Name · Handle · Bio · Photo · Tags · CB_Username · Fansly_URL · Is_Live · Approved
-
-    const CB_AFF = CB_AFFILIATE;
+    const TIP_URL      = 'https://chaturbate.com/tip_without_login/?campaign=Jz7oe&room=';
 
     function toSlug(str) {
       return (str || '').toLowerCase().replace(/\s+/g, '-');
     }
 
-    async function fetchMuses() {
-      try {
-        const res = await fetch(WORKER_URL);
-        if (!res.ok) throw new Error(`Worker error: ${res.status}`);
-        const data = await res.json();
-        return data.records || [];
-      } catch (e) {
-        console.error('Fetch error:', e);
-        return null;
-      }
-    }
-
-    function buildCard(record, index) {
-      const f = record.fields;
-      const name       = f['Name'] || 'Muse';
-      const handle     = f['Handle'] || '';
-      const bio        = f['Bio'] || '';
-      const photo      = f['Photo'] ? f['Photo'][0]?.url : null;
-      const tags       = f['Tags'] ? f['Tags'].split(',').map(t => t.trim()) : [];
-      const cbUsername = f['CB_Username'] || '';
-      const fanslyUrl  = f['Fansly_URL'] || '';
-      const isLive     = f['Is_Live'] || false;
-
-      const cbLink = cbUsername
-        ? `${CB_AFF}${cbUsername}`
-        : `https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=four_the20`;
-
-      const watchLink   = cbUsername ? cbLink : (fanslyUrl || cbLink);
-      const displayName = f['DisplayName'] || f['Name'] || cbUsername || '';
-      const detailLink  = displayName ? `/muses/muse.html?name=${toSlug(displayName)}` : null;
-      const followLink = fanslyUrl || cbLink;
-
-      const liveBadge = isLive
-        ? `<div class="card-live-badge"><div class="status-dot"></div> Live</div>`
-        : `<div class="card-live-badge offline-badge"><div class="status-dot offline"></div> Offline</div>`;
-
-      const tagsHtml = tags.slice(0,3).map(t => `<span class="tag">${t}</span>`).join('');
-      const imgHtml  = photo
-        ? `<img class="card-img" src="${photo}" alt="${name}" loading="lazy" />`
-        : `<div class="card-img" style="background:linear-gradient(135deg,#1a1a1a,#0e0e0e);"></div>`;
-
-      const card = document.createElement('div');
-      card.className = 'card fade-up';
-      card.style.animationDelay = `${index * 0.07}s`;
-      card.dataset.live    = isLive ? 'live' : 'offline';
-      card.dataset.fansly  = fanslyUrl ? 'true' : 'false';
-      card.dataset.cb      = cbUsername ? 'true' : 'false';
-
-      card.style.cursor = 'pointer';
-      if (detailLink) {
-        card.addEventListener('click', (e) => {
-          if (!e.target.closest('a')) {
-            window.location.href = detailLink;
-          }
-        });
-      }
-      card.innerHTML = `
-        ${imgHtml}
-        <div class="card-overlay"></div>
-        ${liveBadge}
-        <div class="card-number">${String(index + 1).padStart(2,'0')}</div>
-        <div class="card-content">
-          <div class="card-name">${name}</div>
-          <div class="card-handle">${handle}</div>
-          <div class="card-bio">${bio}</div>
-          <div class="card-tags">${tagsHtml}</div>
-          <div class="card-actions">
-            <a href="${detailLink || watchLink}" ${detailLink ? '' : 'target="_blank"'} class="btn-watch">View Profile</a>
-            ${followLink ? `<a href="${followLink}" target="_blank" class="btn-follow">Follow</a>` : ''}
-          </div>
-        </div>
-      `;
-      return card;
-    }
-
-    function buildPlaceholder() {
-      const el = document.createElement('a');
-      el.href = 'https://form.typeform.com/to/RK7h1dMH';
-      el.target = '_blank';
-      el.className = 'card-placeholder';
-      el.innerHTML = `
-        <div class="placeholder-icon">✦</div>
-        <div class="placeholder-text">Your name<br>could be here</div>
-      `;
-      return el;
-    }
-
     async function init() {
-      const grid    = document.getElementById('muse-grid');
-      const loading = document.getElementById('loading');
-      const error   = document.getElementById('error');
+      const params = new URLSearchParams(window.location.search);
+      const nameSlug = params.get('name');
 
-      // If no credentials set, show demo mode
-      if (WORKER_URL === 'YOUR_WORKER_URL') {
-        loading.style.display = 'none';
-        error.style.display   = 'block';
-        error.innerHTML = `
-          <p class="error-text" style="margin-bottom:1.5rem;">
-            🔑 Deploy your Cloudflare Worker and add the Worker URL to activate the directory.
-          </p>
-          <p class="error-text" style="font-size:0.55rem; opacity:0.5;">
-            AIRTABLE_PAT · AIRTABLE_BASE_ID (starts with 'app') · Active Models
-          </p>
-        `;
-        // Show placeholder cards so the grid doesn't look empty
-        for (let i = 0; i < 6; i++) grid.appendChild(buildPlaceholder());
-        document.getElementById('total-count').textContent = '—';
-        return;
-      }
+      if (!nameSlug) { window.location.href = '/muses/'; return; }
 
-      const records = await fetchMuses();
+      try {
+        const res = await fetch(`${WORKER_URL}?name=${encodeURIComponent(nameSlug)}`);
+        if (!res.ok) throw new Error('Not found');
+        const record = await res.json();
+        const f = record.fields;
 
-      loading.style.display = 'none';
+        const displayName = f['DisplayName'] || f['Name'] || nameSlug;
+        const cbUsername  = f['CB_Username'] || '';
+        const isLive      = f['Is_Live'] || false;
 
-      if (!records) {
-        error.style.display = 'block';
-        return;
-      }
+        document.title = `${displayName} — Four The20`;
 
-      const liveCount = records.filter(r => r.fields['Is_Live']).length;
-      document.getElementById('live-count').textContent  = liveCount > 0 ? `${liveCount} online` : 'None right now';
-      document.getElementById('total-count').textContent = records.length;
+        // ── Hero photo ──
+        const photoWrap = document.getElementById('hero-photo-wrap');
+        const profilePic = (f['Profile Pic'] && f['Profile Pic'][0]?.url)
+          || (f['Photo'] && f['Photo'][0]?.url)
+          || null;
+        photoWrap.innerHTML = profilePic
+          ? `<img src="${profilePic}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover;filter:grayscale(10%) contrast(1.05);" />`
+          : `<div class="hero-photo-placeholder">✦</div>`;
 
-      records.forEach((record, i) => {
-        grid.appendChild(buildCard(record, i));
-      });
+        // ── Live pill — only visible when live ──
+        const livePill = document.getElementById('live-pill');
+        const liveDot  = document.getElementById('live-dot');
+        const liveText = document.getElementById('live-text');
+        if (isLive) {
+          liveText.textContent = 'Live Now';
+          livePill.style.display = 'flex';
+        } else {
+          livePill.style.display = 'none';
+        }
 
-      // Always add a "become a muse" placeholder at the end
-      grid.appendChild(buildPlaceholder());
+        // ── Name / handle / bio ──
+        document.getElementById('model-name').textContent   = displayName;
+        document.getElementById('model-handle').textContent = f['Handle'] ? `@${f['Handle']}` : (cbUsername ? `@${cbUsername}` : '');
+        document.getElementById('model-bio').textContent    = f['Bio'] || '';
 
-      // FILTERS
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const filter = btn.dataset.filter;
-          document.querySelectorAll('.card').forEach(card => {
-            if (filter === 'all') {
-              card.style.display = '';
-            } else if (filter === 'live') {
-              card.style.display = card.dataset.live === 'live' ? '' : 'none';
-            } else if (filter === 'fansly') {
-              card.style.display = card.dataset.fansly === 'true' ? '' : 'none';
-            } else if (filter === 'chaturbate') {
-              card.style.display = card.dataset.cb === 'true' ? '' : 'none';
-            }
+        // ── Stats grid ──
+        const stats = [
+          { label: 'Ethnicity',        value: f['Ethnicity'] },
+          { label: 'Body Type',        value: f['Body Type'] },
+          { label: 'Bust Size',        value: f['Bust Size'] },
+          { label: 'Hair',             value: f['Hair'] },
+          { label: 'Aesthetic',        value: f['Aesthetic'] },
+          { label: 'Body Decorations', value: f['Body Decorations'] },
+          { label: 'Birthday',         value: f['Birthday'] },
+          { label: 'Location',         value: f['Location'] },
+        ].filter(s => s.value);
+
+        const statsGrid = document.getElementById('stats-grid');
+        if (stats.length > 0) {
+          statsGrid.innerHTML = stats.map(s => `
+            <div class="stat-cell">
+              <div class="stat-label">${s.label}</div>
+              <div class="stat-value">${s.value}</div>
+            </div>
+          `).join('');
+        } else {
+          statsGrid.style.display = 'none';
+        }
+
+        // ── Tags ──
+        const tagsRow = document.getElementById('tags-row');
+        if (f['Tags']) {
+          tagsRow.innerHTML = f['Tags'].split(',').map(t =>
+            `<span class="tag">${t.trim()}</span>`
+          ).join('');
+        }
+
+        // ── Action buttons ──
+        const actionsRow = document.getElementById('actions-row');
+        const cbLink     = cbUsername ? `${CB_AFFILIATE}${cbUsername}` : null;
+        const tipLink    = cbUsername ? `${TIP_URL}${cbUsername}` : null;
+        const fanslyLink = f['Fansly_URL'] || null;
+
+        let btns = '';
+        if (cbLink)    btns += `<a href="${cbLink}" target="_blank" class="btn btn-primary">Watch on Chaturbate</a>`;
+        if (tipLink)   btns += `<a href="${tipLink}" target="_blank" class="btn btn-tip">💚 Send a Tip</a>`;
+        if (fanslyLink) btns += `<a href="${fanslyLink}" target="_blank" class="btn btn-secondary">Follow on Fansly</a>`;
+        actionsRow.innerHTML = btns;
+
+        // ── Gallery ──
+        const galleryGrid = document.getElementById('gallery-grid');
+        const galleryPhotos = f['Gallery'] || f['Photo'] || [];
+        document.getElementById('gallery-count').textContent =
+          galleryPhotos.length > 0 ? `${galleryPhotos.length} photos` : '';
+
+        if (galleryPhotos.length > 0) {
+          galleryGrid.innerHTML = galleryPhotos.map((p, i) => `
+            <div class="gallery-item" data-src="${p.url}" data-index="${i}">
+              <img src="${p.url}" alt="${displayName}" loading="lazy" />
+            </div>
+          `).join('');
+
+          // Lightbox
+          galleryGrid.addEventListener('click', e => {
+            const item = e.target.closest('.gallery-item');
+            if (!item) return;
+            document.getElementById('lightbox-img').src = item.dataset.src;
+            document.getElementById('lightbox').classList.add('open');
           });
+        } else {
+          galleryGrid.innerHTML = `<div class="gallery-empty">Gallery coming soon</div>`;
+        }
+
+        document.getElementById('lightbox-close').addEventListener('click', () => {
+          document.getElementById('lightbox').classList.remove('open');
         });
-      });
+        document.getElementById('lightbox').addEventListener('click', e => {
+          if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+        });
+
+        // ── Stream ──
+        const streamIframe  = document.getElementById('stream-iframe');
+        const streamOffline = document.getElementById('stream-offline');
+        document.getElementById('stream-title').textContent = isLive
+          ? `${displayName} is Live` : `Watch ${displayName}`;
+        document.getElementById('stream-status-label').innerHTML = isLive
+          ? '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block;"></span>Live Now</span>'
+          : '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
+        document.getElementById('offline-name').textContent = displayName;
+
+        if (cbUsername && isLive) {
+          streamIframe.src = `https://chaturbate.com/embed/${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
+        } else {
+          streamIframe.style.display = 'none';
+          streamOffline.classList.add('visible');
+        }
+
+        // ── More muses ──
+        const moreRes  = await fetch(WORKER_URL);
+        const moreData = await moreRes.json();
+        const others   = (moreData.records || [])
+          .filter(r => toSlug(r.fields['DisplayName'] || r.fields['Name']) !== nameSlug)
+          .slice(0, 8);
+
+        const moreGrid = document.getElementById('more-grid');
+        moreGrid.innerHTML = others.map(r => {
+          const mf    = r.fields;
+          const mName = mf['DisplayName'] || mf['Name'] || '';
+          const mSlug = toSlug(mName);
+          const mPhoto = mf['Photo'] && mf['Photo'][0] ? mf['Photo'][0].url : null;
+          return `
+            <a href="/muses/muse.html?name=${mSlug}" class="more-card">
+              ${mPhoto
+                ? `<img src="${mPhoto}" alt="${mName}" loading="lazy" />`
+                : `<div style="width:100%;height:100%;background:var(--card);"></div>`
+              }
+              <div class="more-card-info">
+                <div class="more-card-name">${mName}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+
+        if (others.length === 0) moreGrid.innerHTML = '';
+
+        // Show page
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+
+      } catch (err) {
+        document.getElementById('loading').innerHTML = `
+          <p style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Muse not found</p>
+          <a href="/muses/" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;margin-top:1rem;">← Back to directory</a>
+        `;
+      }
     }
 
     init();
