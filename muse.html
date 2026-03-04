@@ -386,7 +386,20 @@
         document.getElementById('stream-title').textContent = `Watch ${displayName}`;
         document.getElementById('offline-name').textContent = displayName;
         if (cbUsername) {
-          document.getElementById('stream-iframe').src = `${CB_EMBED}${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
+          const streamIframe = document.getElementById('stream-iframe');
+          streamIframe.src = `${CB_EMBED}${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
+
+          // Detect live state from iframe load behavior:
+          // live stream = cross-origin block (throws) = model is live
+          // offline page = no cross-origin = model is offline
+          streamIframe.addEventListener('load', () => {
+            try {
+              streamIframe.contentDocument; // throws if live (cross-origin)
+              document.getElementById('live-pill').style.display = 'none';
+            } catch(e) {
+              document.getElementById('live-pill').style.display = 'flex';
+            }
+          });
         } else {
           document.getElementById('stream-iframe').style.display = 'none';
           document.getElementById('stream-offline').classList.add('visible');
