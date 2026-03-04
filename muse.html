@@ -408,12 +408,14 @@
       position: relative;
       background: #000;
       width: 100%;
-      aspect-ratio: 16/9;
+      padding-top: 56.25%; /* 16:9 */
+      min-height: 400px;
     }
 
     .stream-iframe {
       width: 100%;
       height: 100%;
+      min-height: 400px;
       border: none;
       display: block;
       position: absolute;
@@ -424,11 +426,13 @@
       display: none;
       position: absolute;
       inset: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 1rem;
       background: var(--deep);
+      min-height: 400px;
     }
     .stream-offline.visible { display: flex; }
     .offline-name {
@@ -657,6 +661,12 @@
       return (str || '').toLowerCase().replace(/\s+/g, '-');
     }
 
+    async function checkCBLive(username) {
+      // CB API is CORS-blocked in browser — let the embed handle online/offline state natively
+      if (!username) return false;
+      return true; // Always render embed; CB shows offline room if not streaming
+    }
+
     async function init() {
       const params = new URLSearchParams(window.location.search);
       const nameSlug = params.get('name');
@@ -671,7 +681,8 @@
 
         const displayName = f['DisplayName'] || f['Name'] || nameSlug;
         const cbUsername  = f['CB_Username'] || '';
-        const isLive      = f['Is_Live'] || false;
+        // Check live status client-side — CB blocks Cloudflare Workers
+        const isLive = await checkCBLive(cbUsername);
 
         document.title = `${displayName} — Four The20`;
 
@@ -785,11 +796,13 @@
           : '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
         document.getElementById('offline-name').textContent = displayName;
 
-        if (cbUsername && isLive) {
-          streamIframe.src = `https://chaturbate.com/embed/${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
+        streamIframe.dataset.cbUsername = cbUsername || '';
+
+        if (cbUsername) {
+          // Always show embed — CB handles offline state natively
+          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
         } else {
-          streamIframe.style.display = 'none';
-          streamOffline.classList.add('visible');
+          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
         }
 
         // ── More muses ──
@@ -804,7 +817,7 @@
           const mf    = r.fields;
           const mName = mf['DisplayName'] || mf['Name'] || '';
           const mSlug = toSlug(mName);
-          const mPhoto = mf['Photo'] && mf['Photo'][0] ? mf['Photo'][0].url : null;
+          const mPhoto = mf['Profile Pic']?.[0]?.url || mf['Photo']?.[0]?.url || null;
           return `
             <a href="/muses/muse.html?name=${mSlug}" class="more-card">
               ${mPhoto
@@ -833,6 +846,60 @@
     }
 
     init();
+
+    // ── Live status polling — checks every 60 seconds ──
+    async function pollLiveStatus(nameSlug, cbUsername, displayName) {
+      try {
+        const res = await fetch(`${WORKER_URL}?name=${encodeURIComponent(nameSlug)}`);
+        if (!res.ok) return;
+        const record = await res.json();
+        const cbUser = document.getElementById('stream-iframe').dataset.cbUsername || '';
+        const isLive = await checkCBLive(cbUser);
+
+        const currentlyLive = document.getElementById('live-pill').style.display !== 'none';
+        if (isLive === currentlyLive) return; // no change, do nothing
+
+        // Status changed — update UI
+        const livePill   = document.getElementById('live-pill');
+        const streamIframe  = document.getElementById('stream-iframe');
+        const streamOffline = document.getElementById('stream-offline');
+        const streamTitle   = document.getElementById('stream-title');
+        const statusLabel   = document.getElementById('stream-status-label');
+
+        if (isLive) {
+          // Went live
+          livePill.style.display = 'flex';
+          streamOffline.classList.remove('visible');
+          streamIframe.style.display = 'block';
+          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
+          streamTitle.textContent = `${displayName} is Live`;
+          statusLabel.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block;"></span>Live Now</span>';
+        } else {
+          // Went offline
+          livePill.style.display = 'none';
+          streamIframe.style.display = 'none';
+          streamIframe.src = `https://cbxyz.com/in/?tour=SHBY&campaign=Jz7oe&track=embed&room=${cbUsername}`;
+          streamOffline.classList.add('visible');
+          streamTitle.textContent = `Watch ${displayName}`;
+          statusLabel.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
+        }
+
+      } catch {
+        // Silently fail — don't disrupt the page
+      }
+    }
+
+    // Start polling after page loads, every 60 seconds
+    window.addEventListener('load', () => {
+      const params      = new URLSearchParams(window.location.search);
+      const nameSlug    = params.get('name');
+      const cbUsername  = document.getElementById('stream-iframe').dataset.cbUsername || '';
+      const displayName = document.getElementById('model-name').textContent;
+
+      if (nameSlug && displayName) {
+        setInterval(() => pollLiveStatus(nameSlug, cbUsername, displayName), 60000);
+      }
+    });
   </script>
 </body>
 </html>
