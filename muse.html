@@ -37,6 +37,7 @@
       color: var(--border);
       font-style: italic;
     }
+
     .live-pill {
       position: absolute;
       top: 1.5rem; left: 1.5rem;
@@ -170,7 +171,28 @@
     @media (max-width: 900px) {
       .hero-section { grid-template-columns: 1fr; }
       .hero-photo { min-height: 60vw; max-height: 80vw; }
-      .hero-identity { padding: 2rem 1.5rem; }
+      .live-pill {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(8,8,8,0.85);
+      border: 1px solid var(--green-bright);
+      padding: 0.35rem 0.8rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      backdrop-filter: blur(6px);
+    }
+    .live-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      animation: pulse 2s infinite;
+    }
+    .hero-identity { padding: 2rem 1.5rem; }
       .gallery-section, .more-section, .stream-header { padding-left: 1.2rem; padding-right: 1.2rem; }
       .actions-row { flex-direction: column; }
       .btn { width: 100%; }
@@ -208,10 +230,7 @@
     <section class="hero-section">
       <div class="hero-photo">
         <div id="hero-photo-wrap" style="width:100%;height:100%;"></div>
-        <div class="live-pill" id="live-pill">
-          <div class="live-dot"></div>
-          <span>Live Now</span>
-        </div>
+
       </div>
       <div class="hero-identity">
         <div>
