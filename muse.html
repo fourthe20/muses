@@ -393,11 +393,13 @@
           // live stream = cross-origin block (throws) = model is live
           // offline page = no cross-origin = model is offline
           streamIframe.addEventListener('load', () => {
+            const pill = document.getElementById('live-pill');
+            if (!pill) return;
             try {
               streamIframe.contentDocument; // throws if live (cross-origin)
-              document.getElementById('live-pill').style.display = 'none';
+              pill.style.display = 'none';
             } catch(e) {
-              document.getElementById('live-pill').style.display = 'flex';
+              pill.style.display = 'flex';
             }
           });
         } else {
