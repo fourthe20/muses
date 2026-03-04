@@ -12,10 +12,8 @@
       --card: #131313;
       --gold: #c9a84c;
       --gold-dim: #a07830;
-      --green: #3a6b35;
       --green-bright: #4ade80;
       --cream: #f0e6cc;
-      --red: #c0392b;
       --white: #f5f5f0;
       --muted: #555;
       --border: rgba(201,168,76,0.15);
@@ -37,7 +35,7 @@
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 1000;
+      z-index: 999;
       opacity: 0.4;
     }
 
@@ -64,11 +62,9 @@
       text-decoration: none;
       text-transform: uppercase;
     }
-
     .logo span { color: var(--white); }
 
     nav { display: flex; gap: 2rem; align-items: center; }
-
     nav a {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
@@ -77,22 +73,7 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-
     nav a:hover { color: var(--gold); }
-
-    .back-btn {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .back-btn:hover { color: var(--gold); }
 
     /* LOADING */
     #loading {
@@ -103,24 +84,19 @@
       min-height: 100vh;
       gap: 1rem;
     }
-
     .loader { display: flex; gap: 0.4rem; }
-
     .loader-dot {
       width: 6px; height: 6px;
       background: var(--gold);
       border-radius: 50%;
       animation: loaderPulse 1.2s infinite;
     }
-
     .loader-dot:nth-child(2) { animation-delay: 0.2s; }
     .loader-dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes loaderPulse {
       0%, 100% { opacity: 0.2; transform: scale(0.8); }
       50% { opacity: 1; transform: scale(1); }
     }
-
     .loader-text {
       font-size: 0.6rem;
       letter-spacing: 0.3em;
@@ -128,186 +104,179 @@
       color: var(--muted);
     }
 
-    /* MAIN CONTENT */
+    /* PAGE */
     #content { display: none; padding-top: 65px; }
 
-    /* HERO STREAM SECTION */
-    .stream-section {
+    /* ── HERO: photo left + identity right ── */
+    .hero-section {
       display: grid;
-      grid-template-columns: 1fr 380px;
-      min-height: calc(100vh - 65px);
+      grid-template-columns: 480px 1fr;
+      min-height: 85vh;
       border-bottom: 1px solid var(--border);
     }
 
-    /* STREAM */
-    .stream-container {
+    .hero-photo {
       position: relative;
-      background: #000;
-      border-right: 1px solid var(--border);
-    }
-
-    .stream-iframe {
-      width: 100%;
-      height: 100%;
-      min-height: 500px;
-      border: none;
-      display: block;
-    }
-
-    .stream-offline {
-      display: none;
-      position: absolute;
-      inset: 0;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
+      overflow: hidden;
       background: var(--deep);
     }
-
-    .stream-offline.visible { display: flex; }
-
-    .offline-text {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .offline-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-style: italic;
-      color: var(--gold);
-      opacity: 0.3;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      background: var(--deep);
-      overflow-y: auto;
-    }
-
-    /* MODEL HEADER */
-    .model-header {
-      padding: 2rem;
-      border-bottom: 1px solid var(--border);
-      position: relative;
-    }
-
-    .model-photo {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
+    .hero-photo img {
+      width: 100%; height: 100%;
       object-fit: cover;
-      border: 2px solid var(--gold);
-      margin-bottom: 1rem;
+      filter: grayscale(10%) contrast(1.05);
       display: block;
     }
-
-    .model-photo-placeholder {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: var(--card);
-      border: 2px solid var(--border);
-      margin-bottom: 1rem;
+    .hero-photo-placeholder {
+      width: 100%; height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      color: var(--muted);
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: var(--border);
+      font-style: italic;
     }
 
-    .live-badge {
-      display: inline-flex;
+    .live-pill {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      display: flex;
       align-items: center;
-      gap: 0.4rem;
-      background: rgba(8,8,8,0.8);
+      gap: 0.5rem;
+      background: rgba(8,8,8,0.85);
       border: 1px solid var(--green-bright);
-      padding: 0.3rem 0.7rem;
+      padding: 0.35rem 0.8rem;
       font-size: 0.55rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--green-bright);
-      margin-bottom: 0.8rem;
+      backdrop-filter: blur(6px);
     }
-
-    .live-badge.offline {
+    .live-pill.offline {
       border-color: var(--muted);
       color: var(--muted);
     }
-
     .live-dot {
       width: 5px; height: 5px;
       border-radius: 50%;
       background: var(--green-bright);
       animation: pulse 2s infinite;
     }
-
-    .live-dot.off {
-      background: var(--muted);
-      animation: none;
-    }
-
+    .live-dot.off { background: var(--muted); animation: none; }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
 
+    .hero-identity {
+      padding: 3rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+    }
+
+    .identity-top {}
+
+    .eyebrow {
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
     .model-name {
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 0.3rem;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
     }
 
     .model-handle {
       font-size: 0.6rem;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.2em;
       color: var(--gold);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .model-bio {
-      font-size: 0.65rem;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.5);
+      font-size: 0.7rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.45);
+      max-width: 480px;
+      margin-bottom: 2rem;
     }
 
-    /* TAGS */
-    .tags-section {
-      padding: 1.2rem 2rem;
+    /* STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .stat-cell {
+      padding: 1rem 1.2rem;
+      border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+    }
+    .stat-cell:nth-child(even) { border-right: none; }
+    .stat-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+    .stat-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-value {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+
+    .stat-value.empty { color: var(--muted); }
+
+    /* TAGS */
+    .tags-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
+      margin-bottom: 2rem;
     }
-
     .tag {
       font-size: 0.5rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      border: 1px solid rgba(201,168,76,0.3);
+      border: 1px solid rgba(201,168,76,0.25);
       color: var(--gold-dim);
       padding: 0.25rem 0.6rem;
     }
 
-    /* ACTIONS */
-    .actions-section {
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border);
+    /* ACTION BUTTONS */
+    .actions-row {
       display: flex;
-      flex-direction: column;
       gap: 0.8rem;
+      flex-wrap: wrap;
     }
 
     .btn {
-      width: 100%;
-      padding: 0.9rem 1rem;
+      padding: 0.8rem 1.5rem;
       font-family: 'DM Mono', monospace;
       font-size: 0.6rem;
       letter-spacing: 0.2em;
@@ -315,108 +284,48 @@
       cursor: pointer;
       text-decoration: none;
       text-align: center;
-      display: block;
       transition: all 0.2s;
       border: none;
+      display: inline-block;
     }
-
-    .btn-primary {
-      background: var(--gold);
-      color: var(--black);
-      font-weight: 500;
-    }
-
+    .btn-primary { background: var(--gold); color: var(--black); font-weight: 500; }
     .btn-primary:hover { background: var(--cream); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
+    .btn-tip { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+    .btn-tip:hover { background: var(--gold); color: var(--black); }
+    .btn-secondary { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.15); }
     .btn-secondary:hover { border-color: var(--white); }
 
-    .btn-tip {
-      background: transparent;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-    }
-
-    .btn-tip:hover {
-      background: var(--gold);
-      color: var(--black);
-    }
-
-    /* PLATFORM LINKS */
-    .platforms-section {
-      padding: 1.2rem 2rem;
+    /* ── GALLERY ── */
+    .gallery-section {
+      padding: 3rem 2.5rem;
       border-bottom: 1px solid var(--border);
     }
 
-    .section-label {
-      font-size: 0.55rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.8rem;
-    }
-
-    .platform-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .platform-link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.6rem 0.8rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      text-decoration: none;
-      transition: border-color 0.2s;
-    }
-
-    .platform-link:hover { border-color: var(--gold-dim); }
-
-    .platform-name {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--white);
-    }
-
-    .platform-arrow {
-      font-size: 0.6rem;
-      color: var(--gold);
-    }
-
-    /* PHOTO GALLERY */
-    .gallery-section {
-      padding: 2.5rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .gallery-header {
+    .section-header {
       display: flex;
       align-items: baseline;
-      gap: 1rem;
+      justify-content: space-between;
       margin-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border);
       padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .gallery-title {
+    .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-style: italic;
+    }
+
+    .section-meta {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1.5px;
     }
 
@@ -424,18 +333,15 @@
       aspect-ratio: 3/4;
       overflow: hidden;
       background: var(--card);
-      border: 1px solid var(--border);
       cursor: pointer;
       position: relative;
     }
-
     .gallery-item img {
       width: 100%; height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
       filter: grayscale(15%);
     }
-
     .gallery-item:hover img {
       transform: scale(1.05);
       filter: grayscale(0%);
@@ -451,19 +357,99 @@
       color: var(--muted);
     }
 
-    /* MORE MUSES */
-    .more-section {
-      padding: 2.5rem;
-      border-top: 1px solid var(--border);
-      background: var(--deep);
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--white); }
+
+    /* ── STREAM SECTION ── */
+    .stream-section {
+      border-bottom: 1px solid var(--border);
     }
 
-    .more-label {
-      font-size: 0.55rem;
+    .stream-header {
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stream-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+    }
+
+    .stream-body {
+      position: relative;
+      background: #000;
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+
+    .stream-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+    }
+
+    .stream-offline {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: var(--deep);
+    }
+    .stream-offline.visible { display: flex; }
+    .offline-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-style: italic;
+      color: var(--gold);
+      opacity: 0.2;
+    }
+    .offline-text {
+      font-size: 0.6rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 1.5rem;
+    }
+
+    /* ── MORE MUSES ── */
+    .more-section {
+      padding: 2.5rem;
+      background: var(--deep);
+      border-bottom: 1px solid var(--border);
     }
 
     .more-grid {
@@ -471,10 +457,10 @@
       gap: 1rem;
       overflow-x: auto;
       padding-bottom: 0.5rem;
+      margin-top: 1.5rem;
     }
-
     .more-card {
-      flex: 0 0 160px;
+      flex: 0 0 180px;
       aspect-ratio: 3/4;
       position: relative;
       overflow: hidden;
@@ -483,40 +469,38 @@
       text-decoration: none;
       transition: border-color 0.2s;
     }
-
     .more-card:hover { border-color: var(--gold-dim); }
-
     .more-card img {
       width: 100%; height: 100%;
       object-fit: cover;
       filter: grayscale(30%);
       transition: all 0.3s;
     }
-
     .more-card:hover img { filter: grayscale(0%); }
-
     .more-card-info {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       padding: 0.8rem;
       background: linear-gradient(to top, rgba(8,8,8,0.95), transparent);
     }
-
     .more-card-name {
       font-family: 'Playfair Display', serif;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 700;
-      color: var(--white);
     }
-
     .more-card-placeholder {
-      flex: 0 0 160px;
+      flex: 0 0 180px;
       aspect-ratio: 3/4;
       background: var(--card);
       border: 1px dashed rgba(201,168,76,0.1);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
     }
 
     /* FOOTER */
@@ -529,7 +513,6 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
-
     .footer-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1rem;
@@ -537,9 +520,7 @@
       color: var(--gold);
       letter-spacing: 0.15em;
     }
-
     .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
-
     .footer-links a {
       font-size: 0.6rem;
       letter-spacing: 0.2em;
@@ -548,28 +529,23 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-
     .footer-links a:hover { color: var(--gold); }
-
-    .footer-copy {
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      color: rgba(85,85,85,0.5);
-    }
+    .footer-copy { font-size: 0.55rem; color: rgba(85,85,85,0.5); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .fade-up { animation: fadeUp 0.5s ease forwards; }
 
     @media (max-width: 900px) {
-      .stream-section { grid-template-columns: 1fr; }
-      .stream-container { min-height: 56vw; }
-      .stream-iframe { min-height: 56vw; }
+      .hero-section { grid-template-columns: 1fr; }
+      .hero-photo { min-height: 60vw; max-height: 80vw; }
+      .hero-identity { padding: 2rem 1.5rem; }
       header { padding: 1rem 1.2rem; }
-      .gallery-section, .more-section { padding: 1.5rem 1.2rem; }
+      .gallery-section, .more-section, .stream-header { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .actions-row { flex-direction: column; }
+      .btn { width: 100%; }
     }
   </style>
 </head>
@@ -578,8 +554,9 @@
   <header>
     <a href="https://fourthe20.carrd.co" class="logo">Four<span>The</span>20</a>
     <nav>
-      <a href="/muses/" class="back-btn">← All Muses</a>
+      <a href="/muses/">← All Muses</a>
       <a href="https://fourthe20.myshopify.com" target="_blank">Shop</a>
+      <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank">Become a Muse</a>
     </nav>
   </header>
 
@@ -592,67 +569,68 @@
     <p class="loader-text">Loading...</p>
   </div>
 
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
   <div id="content">
 
-    <!-- STREAM + SIDEBAR -->
-    <section class="stream-section">
-
-      <div class="stream-container">
-        <iframe
-          id="stream-iframe"
-          class="stream-iframe"
-          src=""
-          scrolling="no"
-          allow="autoplay"
-          allowfullscreen>
-        </iframe>
-        <div class="stream-offline" id="stream-offline">
-          <div class="offline-name" id="offline-name"></div>
-          <div class="offline-text">Currently offline</div>
-          <div class="offline-text" style="opacity:0.4; font-size:0.55rem;">Check back later or follow on Fansly</div>
+    <!-- HERO: photo + identity -->
+    <section class="hero-section">
+      <div class="hero-photo">
+        <div id="hero-photo-wrap" style="width:100%;height:100%;"></div>
+        <div class="live-pill" id="live-pill">
+          <div class="live-dot" id="live-dot"></div>
+          <span id="live-text">Offline</span>
         </div>
       </div>
 
-      <aside class="sidebar">
-        <div class="model-header">
-          <div id="model-photo-wrap"></div>
-          <div class="live-badge" id="live-badge">
-            <div class="live-dot" id="live-dot"></div>
-            <span id="live-text">Offline</span>
-          </div>
+      <div class="hero-identity">
+        <div class="identity-top">
+          <div class="eyebrow">Four The20 Muse</div>
           <div class="model-name" id="model-name"></div>
           <div class="model-handle" id="model-handle"></div>
           <div class="model-bio" id="model-bio"></div>
+
+          <div class="stats-grid" id="stats-grid"></div>
+
+          <div class="tags-row" id="tags-row"></div>
         </div>
 
-        <div class="tags-section" id="tags-section"></div>
-
-        <div class="actions-section">
-          <a id="btn-watch" href="#" target="_blank" class="btn btn-primary">Watch on Chaturbate</a>
-          <a id="btn-tip" href="#" target="_blank" class="btn btn-tip">💚 Send a Tip</a>
-          <a id="btn-fansly" href="#" target="_blank" class="btn btn-secondary" style="display:none;">Follow on Fansly</a>
-        </div>
-
-        <div class="platforms-section" id="platforms-section">
-          <div class="section-label">Find Her On</div>
-          <div class="platform-links" id="platform-links"></div>
-        </div>
-
-      </aside>
+        <div class="actions-row" id="actions-row"></div>
+      </div>
     </section>
 
-    <!-- PHOTO GALLERY -->
+    <!-- GALLERY -->
     <section class="gallery-section">
-      <div class="gallery-header">
-        <h2 class="gallery-title">Gallery</h2>
-        <span class="section-label" id="gallery-count"></span>
+      <div class="section-header">
+        <h2 class="section-title">Gallery</h2>
+        <span class="section-meta" id="gallery-count"></span>
       </div>
       <div class="gallery-grid" id="gallery-grid"></div>
     </section>
 
+    <!-- STREAM -->
+    <section class="stream-section">
+      <div class="stream-header">
+        <div class="stream-title" id="stream-title">Watch Live</div>
+        <div id="stream-status-label" style="font-size:0.6rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;"></div>
+      </div>
+      <div class="stream-body">
+        <iframe id="stream-iframe" class="stream-iframe" src="" scrolling="no" allow="autoplay" allowfullscreen></iframe>
+        <div class="stream-offline" id="stream-offline">
+          <div class="offline-name" id="offline-name"></div>
+          <div class="offline-text">Currently offline</div>
+          <div class="offline-text" style="opacity:0.4;font-size:0.55rem;margin-top:0.5rem;">Follow on Fansly to know when she's back</div>
+        </div>
+      </div>
+    </section>
+
     <!-- MORE MUSES -->
     <section class="more-section">
-      <div class="more-label">More Muses</div>
+      <div class="section-meta">More Muses</div>
       <div class="more-grid" id="more-grid"></div>
     </section>
 
@@ -671,145 +649,178 @@
   </div>
 
   <script>
-    const WORKER_URL = 'https://muse.four-the20.workers.dev/';
+    const WORKER_URL   = 'https://muse.four-the20.workers.dev/';
     const CB_AFFILIATE = 'https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=';
+    const TIP_URL      = 'https://chaturbate.com/tip_without_login/?campaign=Jz7oe&room=';
+
+    function toSlug(str) {
+      return (str || '').toLowerCase().replace(/\s+/g, '-');
+    }
 
     async function init() {
       const params = new URLSearchParams(window.location.search);
-      const username = params.get('username');
+      const nameSlug = params.get('name');
 
-      if (!username) {
-        window.location.href = '/muses/';
-        return;
-      }
+      if (!nameSlug) { window.location.href = '/muses/'; return; }
 
       try {
-        // Fetch this model
-        const res = await fetch(`${WORKER_URL}?username=${username}`);
+        const res = await fetch(`${WORKER_URL}?name=${encodeURIComponent(nameSlug)}`);
         if (!res.ok) throw new Error('Not found');
         const record = await res.json();
         const f = record.fields;
 
-        // Update page title
-        document.title = `${f['Name'] || username} — Four The20`;
+        const displayName = f['DisplayName'] || f['Name'] || nameSlug;
+        const cbUsername  = f['CB_Username'] || '';
+        const isLive      = f['Is_Live'] || false;
 
-        // Photo
-        const photoWrap = document.getElementById('model-photo-wrap');
-        if (f['Photo'] && f['Photo'][0]) {
-          photoWrap.innerHTML = `<img class="model-photo" src="${f['Photo'][0].url}" alt="${f['Name']}" />`;
-        } else {
-          photoWrap.innerHTML = `<div class="model-photo-placeholder">✦</div>`;
-        }
+        document.title = `${displayName} — Four The20`;
 
-        // Live status
-        const isLive = f['Is_Live'] || false;
-        const liveBadge = document.getElementById('live-badge');
-        const liveDot = document.getElementById('live-dot');
+        // ── Hero photo ──
+        const photoWrap = document.getElementById('hero-photo-wrap');
+        const profilePic = (f['Profile Pic'] && f['Profile Pic'][0]?.url)
+          || (f['Photo'] && f['Photo'][0]?.url)
+          || null;
+        photoWrap.innerHTML = profilePic
+          ? `<img src="${profilePic}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover;filter:grayscale(10%) contrast(1.05);" />`
+          : `<div class="hero-photo-placeholder">✦</div>`;
+
+        // ── Live pill — only visible when live ──
+        const livePill = document.getElementById('live-pill');
+        const liveDot  = document.getElementById('live-dot');
         const liveText = document.getElementById('live-text');
-
         if (isLive) {
-          liveBadge.classList.remove('offline');
           liveText.textContent = 'Live Now';
+          livePill.style.display = 'flex';
         } else {
-          liveBadge.classList.add('offline');
-          liveDot.classList.add('off');
-          liveText.textContent = 'Offline';
+          livePill.style.display = 'none';
         }
 
-        // Name + handle + bio
-        document.getElementById('model-name').textContent = f['Name'] || username;
-        document.getElementById('model-handle').textContent = f['Handle'] || `@${username}`;
-        document.getElementById('model-bio').textContent = f['Bio'] || '';
+        // ── Name / handle / bio ──
+        document.getElementById('model-name').textContent   = displayName;
+        document.getElementById('model-handle').textContent = f['Handle'] ? `@${f['Handle']}` : (cbUsername ? `@${cbUsername}` : '');
+        document.getElementById('model-bio').textContent    = f['Bio'] || '';
 
-        // Tags
-        const tagsSection = document.getElementById('tags-section');
-        if (f['Tags']) {
-          const tags = f['Tags'].split(',').map(t => t.trim());
-          tagsSection.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
-        } else {
-          tagsSection.style.display = 'none';
-        }
+        // ── Stats grid ──
+        const stats = [
+          { label: 'Ethnicity',        value: f['Ethnicity'] },
+          { label: 'Body Type',        value: f['Body Type'] },
+          { label: 'Bust Size',        value: f['Bust Size'] },
+          { label: 'Hair',             value: f['Hair'] },
+          { label: 'Aesthetic',        value: f['Aesthetic'] },
+          { label: 'Body Decorations', value: f['Body Decorations'] },
+          { label: 'Birthday',         value: f['Birthday'] },
+          { label: 'Location',         value: f['Location'] },
+        ].filter(s => s.value);
 
-        // Stream
-        const cbUsername = f['CB_Username'] || username;
-        const streamIframe = document.getElementById('stream-iframe');
-        const streamOffline = document.getElementById('stream-offline');
-
-        if (isLive) {
-          streamIframe.src = `https://chaturbate.com/embed/${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
-        } else {
-          streamIframe.style.display = 'none';
-          streamOffline.classList.add('visible');
-          document.getElementById('offline-name').textContent = f['Name'] || username;
-        }
-
-        // Action buttons
-        const cbLink = `${CB_AFFILIATE}${cbUsername}`;
-        const tipLink = `https://chaturbate.com/tip_without_login/?room=${cbUsername}&campaign=Jz7oe`;
-        document.getElementById('btn-watch').href = cbLink;
-        document.getElementById('btn-tip').href = tipLink;
-
-        const fanslyBtn = document.getElementById('btn-fansly');
-        if (f['Fansly_URL']) {
-          fanslyBtn.href = f['Fansly_URL'];
-          fanslyBtn.style.display = 'block';
-        }
-
-        // Platform links
-        const platformLinks = document.getElementById('platform-links');
-        const platforms = [];
-        if (cbUsername) platforms.push({ name: 'Chaturbate', url: cbLink });
-        if (f['Fansly_URL']) platforms.push({ name: 'Fansly', url: f['Fansly_URL'] });
-
-        platformLinks.innerHTML = platforms.map(p => `
-          <a href="${p.url}" target="_blank" class="platform-link">
-            <span class="platform-name">${p.name}</span>
-            <span class="platform-arrow">→</span>
-          </a>
-        `).join('');
-
-        // Gallery
-        const galleryGrid = document.getElementById('gallery-grid');
-        const photos = f['Photo'] || [];
-        const galleryPhotos = f['Gallery'] || photos; // use Gallery field if exists, fallback to Photo
-
-        if (galleryPhotos.length > 0) {
-          document.getElementById('gallery-count').textContent = `${galleryPhotos.length} photos`;
-          galleryGrid.innerHTML = galleryPhotos.map(p => `
-            <div class="gallery-item">
-              <img src="${p.url}" alt="${f['Name']}" loading="lazy" />
+        const statsGrid = document.getElementById('stats-grid');
+        if (stats.length > 0) {
+          statsGrid.innerHTML = stats.map(s => `
+            <div class="stat-cell">
+              <div class="stat-label">${s.label}</div>
+              <div class="stat-value">${s.value}</div>
             </div>
           `).join('');
+        } else {
+          statsGrid.style.display = 'none';
+        }
+
+        // ── Tags ──
+        const tagsRow = document.getElementById('tags-row');
+        if (f['Tags']) {
+          tagsRow.innerHTML = f['Tags'].split(',').map(t =>
+            `<span class="tag">${t.trim()}</span>`
+          ).join('');
+        }
+
+        // ── Action buttons ──
+        const actionsRow = document.getElementById('actions-row');
+        const cbLink     = cbUsername ? `${CB_AFFILIATE}${cbUsername}` : null;
+        const tipLink    = cbUsername ? `${TIP_URL}${cbUsername}` : null;
+        const fanslyLink = f['Fansly_URL'] || null;
+
+        let btns = '';
+        if (cbLink)    btns += `<a href="${cbLink}" target="_blank" class="btn btn-primary">Watch on Chaturbate</a>`;
+        if (tipLink)   btns += `<a href="${tipLink}" target="_blank" class="btn btn-tip">💚 Send a Tip</a>`;
+        if (fanslyLink) btns += `<a href="${fanslyLink}" target="_blank" class="btn btn-secondary">Follow on Fansly</a>`;
+        actionsRow.innerHTML = btns;
+
+        // ── Gallery ──
+        const galleryGrid = document.getElementById('gallery-grid');
+        const galleryPhotos = f['Gallery'] || f['Photo'] || [];
+        document.getElementById('gallery-count').textContent =
+          galleryPhotos.length > 0 ? `${galleryPhotos.length} photos` : '';
+
+        if (galleryPhotos.length > 0) {
+          galleryGrid.innerHTML = galleryPhotos.map((p, i) => `
+            <div class="gallery-item" data-src="${p.url}" data-index="${i}">
+              <img src="${p.url}" alt="${displayName}" loading="lazy" />
+            </div>
+          `).join('');
+
+          // Lightbox
+          galleryGrid.addEventListener('click', e => {
+            const item = e.target.closest('.gallery-item');
+            if (!item) return;
+            document.getElementById('lightbox-img').src = item.dataset.src;
+            document.getElementById('lightbox').classList.add('open');
+          });
         } else {
           galleryGrid.innerHTML = `<div class="gallery-empty">Gallery coming soon</div>`;
         }
 
-        // More muses
-        const moreRes = await fetch(WORKER_URL);
-        const moreData = await moreRes.json();
-        const others = (moreData.records || []).filter(r => r.fields['CB_Username'] !== cbUsername).slice(0, 6);
-        const moreGrid = document.getElementById('more-grid');
+        document.getElementById('lightbox-close').addEventListener('click', () => {
+          document.getElementById('lightbox').classList.remove('open');
+        });
+        document.getElementById('lightbox').addEventListener('click', e => {
+          if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+        });
 
-        if (others.length > 0) {
-          moreGrid.innerHTML = others.map(r => {
-            const mf = r.fields;
-            const mPhoto = mf['Photo'] && mf['Photo'][0] ? mf['Photo'][0].url : null;
-            const mCB = mf['CB_Username'] || '';
-            return `
-              <a href="/muses/muse.html?username=${mCB}" class="more-card">
-                ${mPhoto
-                  ? `<img src="${mPhoto}" alt="${mf['Name']}" loading="lazy" />`
-                  : `<div style="width:100%;height:100%;background:var(--card);"></div>`
-                }
-                <div class="more-card-info">
-                  <div class="more-card-name">${mf['Name'] || mCB}</div>
-                </div>
-              </a>
-            `;
-          }).join('');
+        // ── Stream ──
+        const streamIframe  = document.getElementById('stream-iframe');
+        const streamOffline = document.getElementById('stream-offline');
+        document.getElementById('stream-title').textContent = isLive
+          ? `${displayName} is Live` : `Watch ${displayName}`;
+        document.getElementById('stream-status-label').innerHTML = isLive
+          ? '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:inline-block;"></span>Live Now</span>'
+          : '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><span style="width:6px;height:6px;border-radius:50%;background:#555;display:inline-block;"></span>Currently Offline</span>';
+        document.getElementById('offline-name').textContent = displayName;
+
+        if (cbUsername && isLive) {
+          streamIframe.src = `https://chaturbate.com/embed/${cbUsername}/?join_overlay=1&campaign=Jz7oe&tour=LQps&bgcolor=black`;
+        } else {
+          streamIframe.style.display = 'none';
+          streamOffline.classList.add('visible');
         }
 
-        // Show content
+        // ── More muses ──
+        const moreRes  = await fetch(WORKER_URL);
+        const moreData = await moreRes.json();
+        const others   = (moreData.records || [])
+          .filter(r => toSlug(r.fields['DisplayName'] || r.fields['Name']) !== nameSlug)
+          .slice(0, 8);
+
+        const moreGrid = document.getElementById('more-grid');
+        moreGrid.innerHTML = others.map(r => {
+          const mf    = r.fields;
+          const mName = mf['DisplayName'] || mf['Name'] || '';
+          const mSlug = toSlug(mName);
+          const mPhoto = mf['Photo'] && mf['Photo'][0] ? mf['Photo'][0].url : null;
+          return `
+            <a href="/muses/muse.html?name=${mSlug}" class="more-card">
+              ${mPhoto
+                ? `<img src="${mPhoto}" alt="${mName}" loading="lazy" />`
+                : `<div style="width:100%;height:100%;background:var(--card);"></div>`
+              }
+              <div class="more-card-info">
+                <div class="more-card-name">${mName}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+
+        if (others.length === 0) moreGrid.innerHTML = '';
+
+        // Show page
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
 
