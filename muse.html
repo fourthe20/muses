@@ -396,9 +396,16 @@
             const pill = document.getElementById('live-pill');
             if (!pill) return;
             try {
-              streamIframe.contentDocument; // throws if live (cross-origin)
-              pill.style.display = 'none';
+              const doc = streamIframe.contentDocument;
+              // undefined = cross-origin = live stream
+              // null or accessible = offline CB page
+              if (doc === undefined) {
+                pill.style.display = 'flex';
+              } else {
+                pill.style.display = 'none';
+              }
             } catch(e) {
+              // exception also means cross-origin = live
               pill.style.display = 'flex';
             }
           });
