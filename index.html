@@ -746,8 +746,7 @@
       const name       = f['Name'] || 'Muse';
       const handle     = f['Handle'] || '';
       const bio        = f['Bio'] || '';
-      const photo      = f['Profile Pic']?.[0]?.name || f['Photo']?.[0]?.url || null;
-/*      const photo      = f['Photo'] ? f['Photo'][0]?.url : null;  */
+      const photo      = f['Profile Pic'] ? f['Photo'][0]?.url : null;
       const tags       = f['Tags'] ? f['Tags'].split(',').map(t => t.trim()) : [];
       const cbUsername = f['CB_Username'] || '';
       const fanslyUrl  = f['Fansly_URL'] || '';
