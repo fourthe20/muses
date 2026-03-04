@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Muses — Four The20</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { cursor: default; }
+
+    .nav-cta {
+      border: 1px solid var(--gold) !important;
+      padding: 0.5rem 1.2rem !important;
+      color: var(--gold) !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--black) !important;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 5rem 2.5rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-eyebrow::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      max-width: 400px;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+    .hero-line {
+      position: absolute;
+      right: 2.5rem; top: 14rem;
+      width: 1px; height: 120px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* STATUS BAR */
+    .status-bar {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      background: var(--deep);
+      overflow-x: auto;
+    }
+    .status-item { display: flex; align-items: center; gap: 0.6rem; white-space: nowrap; }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      animation: pulse 2s infinite;
+    }
+    .status-dot.offline { background: var(--muted); animation: none; }
+    .status-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+    .status-count { font-size: 0.6rem; color: var(--green-bright); letter-spacing: 0.1em; }
+
+    /* FILTERS */
+    .filters {
+      padding: 2.5rem 2.5rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-right: 0.5rem; }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.4rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); }
+
+    /* GRID */
+    .grid-section {
+      padding: 1rem 2.5rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5px;
+    }
+
+    /* CARD */
+    .card {
+      position: relative;
+      background: var(--card);
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .card:hover { border-color: var(--gold-dim); }
+    .card-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.3s ease;
+      filter: grayscale(20%) contrast(1.1);
+    }
+    .card:hover .card-img { transform: scale(1.04); filter: grayscale(0%) contrast(1.05); }
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.98) 0%, rgba(8,8,8,0.5) 45%, rgba(8,8,8,0.1) 70%, transparent 100%);
+    }
+    .card-live-badge {
+      position: absolute;
+      top: 1rem; left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(8,8,8,0.8);
+      border: 1px solid var(--green-bright);
+      padding: 0.3rem 0.7rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+    }
+    .card-live-badge.offline-badge { border-color: var(--muted); color: var(--muted); }
+    .card-number {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.2);
+    }
+    .card-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      transform: translateY(2rem);
+      transition: transform 0.4s ease;
+    }
+    .card:hover .card-content { transform: translateY(0); }
+    .card-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; margin-bottom: 0.3rem; color: var(--white); }
+    .card-handle { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 0.8rem; }
+    .card-bio { font-size: 0.65rem; line-height: 1.6; color: rgba(255,255,255,0.55); margin-bottom: 1.2rem; opacity: 0; transition: opacity 0.4s ease 0.1s; }
+    .card:hover .card-bio { opacity: 1; }
+    .card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; opacity: 0; transition: opacity 0.4s ease 0.15s; }
+    .card:hover .card-tags { opacity: 1; }
+    .card-actions { display: flex; gap: 0.6rem; opacity: 0; transition: opacity 0.4s ease 0.2s; }
+    .card:hover .card-actions { opacity: 1; }
+    .btn-watch {
+      flex: 1;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 0.7rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      transition: background 0.2s;
+      font-weight: 500;
+    }
+    .btn-watch:hover { background: var(--cream); }
+    .btn-follow {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.7rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      transition: all 0.2s;
+    }
+    .btn-follow:hover { border-color: var(--white); }
+
+    /* PLACEHOLDER */
+    .card-placeholder {
+      background: var(--card);
+      border: 1px dashed rgba(201,168,76,0.1);
+      aspect-ratio: 3/4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-decoration: none;
+      transition: border-color 0.3s;
+    }
+    .card-placeholder:hover { border-color: rgba(201,168,76,0.3); }
+    .placeholder-icon { font-size: 2rem; opacity: 0.2; }
+    .placeholder-text { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+    /* ERROR */
+    #error { display: none; padding: 4rem 2.5rem; text-align: center; }
+    .error-text { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 1rem; }
+
+    /* INDEX: override loader to not be fullscreen */
+    #loading { min-height: unset; padding: 6rem 2.5rem; }
+
+    @media (max-width: 768px) {
+      .hero { padding: 10rem 1.2rem 4rem; }
+      .grid-section, .filters, .status-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+    }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="https://fourthe20.carrd.co" class="logo">Four<span>The</span>20</a>
+    <nav>
+      <a href="https://fourthe20.myshopify.com" target="_blank">Shop</a>
+      <a href="https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=four_the20" target="_blank">Live</a>
+      <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank" class="nav-cta">Become a Muse</a>
+    </nav>
+  </header>
+
+  <div class="marquee-wrap" style="margin-top:60px;">
+    <div class="marquee-track">
+      <span class="marquee-item">Smoke <span>✦</span> Screens <span>✦</span> Sex Appeal</span>
+      <span class="marquee-item">Raw <span>✦</span> Unfiltered <span>✦</span> Unapologetic</span>
+      <span class="marquee-item">Welcome to Your 20s <span>✦</span> Four The 20</span>
+      <span class="marquee-item">Smoke <span>✦</span> Screens <span>✦</span> Sex Appeal</span>
+      <span class="marquee-item">Raw <span>✦</span> Unfiltered <span>✦</span> Unapologetic</span>
+      <span class="marquee-item">Welcome to Your 20s <span>✦</span> Four The 20</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-eyebrow">The Muses</div>
+    <h1>The ones<br>worth <em>watching.</em></h1>
+    <p class="hero-sub">Curated creators. Each with a universe of their own. Admire, connect, or collaborate.</p>
+    <div class="hero-line"></div>
+  </section>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-dot" id="live-dot"></div>
+      <span class="status-label">Live Now</span>
+      <span class="status-count" id="live-count">—</span>
+    </div>
+    <div class="status-item">
+      <div class="status-dot offline"></div>
+      <span class="status-label">Total Muses</span>
+      <span class="status-count" id="total-count">—</span>
+    </div>
+    <div class="status-item">
+      <div class="status-dot" style="background:var(--gold);animation:none;"></div>
+      <span class="status-label">Platform</span>
+      <span class="status-count" style="color:var(--gold);">Chaturbate + Fansly</span>
+    </div>
+  </div>
+
+  <div class="filters">
+    <span class="filter-label">Filter —</span>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="live">Live</button>
+    <button class="filter-btn" data-filter="fansly">Fansly</button>
+    <button class="filter-btn" data-filter="chaturbate">Chaturbate</button>
+  </div>
+
+  <section class="grid-section">
+    <div id="loading">
+      <div class="loader">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+      </div>
+      <p class="loader-text">Loading the muses...</p>
+    </div>
+    <div id="error"></div>
+    <div class="grid" id="muse-grid"></div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track" style="animation-direction:reverse;">
+      <span class="marquee-item">Join The Network <span>✦</span> Become a Muse <span>✦</span> Turn Attention Into Income</span>
+      <span class="marquee-item">No Rules <span>✦</span> No Filters <span>✦</span> Just You Uncensored</span>
+      <span class="marquee-item">Join The Network <span>✦</span> Become a Muse <span>✦</span> Turn Attention Into Income</span>
+      <span class="marquee-item">No Rules <span>✦</span> No Filters <span>✦</span> Just You Uncensored</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Four The20</div>
+    <div class="footer-links">
+      <a href="https://fourthe20.carrd.co">Home</a>
+      <a href="https://fourthe20.myshopify.com" target="_blank">Shop</a>
+      <a href="https://x.com/four_the20" target="_blank">X</a>
+      <a href="https://instagram.com/four_the20" target="_blank">Instagram</a>
+      <a href="https://fansly.com/four_the20" target="_blank">Fansly</a>
+      <a href="https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=four_the20" target="_blank">Chaturbate</a>
+      <a href="https://form.typeform.com/to/RK7h1dMH" target="_blank">Become a Muse</a>
+    </div>
+    <div class="footer-copy">© Four The20. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const WORKER_URL   = 'https://muse.four-the20.workers.dev/';
+    const CB_AFFILIATE = 'https://chaturbate.com/in/?tour=LQps&campaign=Jz7oe&track=default&room=';
+
+    function toSlug(str) {
+      return (str || '').toLowerCase().replace(/\s+/g, '-');
+    }
+
+    async function fetchMuses() {
+      try {
+        const res = await fetch(WORKER_URL);
+        if (!res.ok) throw new Error(`Worker error: ${res.status}`);
+        const data = await res.json();
+        return data.records || [];
+      } catch (e) {
+        console.error('Fetch error:', e);
+        return null;
+      }
+    }
+
+    function buildCard(record, index) {
+      const f          = record.fields;
+      const name       = f['DisplayName'] || f['Name'] || 'Muse';
+      const bio        = f['Bio'] || '';
+      const photo      = f['Profile Pic']?.[0]?.url || f['Photo']?.[0]?.url || null;
+      const tags       = f['Tags'] ? f['Tags'].split(',').map(t => t.trim()) : [];
+      const cbUsername = f['CB_Username'] || '';
+      const fanslyUrl  = f['Fansly_URL'] || '';
+      const detailLink = `/muses/muse.html?name=${toSlug(name)}`;
+      const followLink = fanslyUrl || (cbUsername ? `${CB_AFFILIATE}${cbUsername}` : null);
+
+      const liveBadge = `<div class="card-live-badge offline-badge"><div class="status-dot offline"></div> Offline</div>`;
+      const tagsHtml  = tags.slice(0,3).map(t => `<span class="tag">${t}</span>`).join('');
+      const imgHtml   = photo
+        ? `<img class="card-img" src="${photo}" alt="${name}" loading="lazy" />`
+        : `<div class="card-img" style="background:linear-gradient(135deg,#1a1a1a,#0e0e0e);"></div>`;
+
+      const card = document.createElement('div');
+      card.className = 'card fade-up';
+      card.style.animationDelay = `${index * 0.07}s`;
+      card.dataset.fansly = fanslyUrl ? 'true' : 'false';
+      card.dataset.cb     = cbUsername ? 'true' : 'false';
+      card.dataset.live   = 'offline';
+      card.addEventListener('click', e => {
+        if (!e.target.closest('a')) window.location.href = detailLink;
+      });
+
+      card.innerHTML = `
+        ${imgHtml}
+        <div class="card-overlay"></div>
+        ${liveBadge}
+        <div class="card-number">${String(index + 1).padStart(2,'0')}</div>
+        <div class="card-content">
+          <div class="card-name">${name}</div>
+          <div class="card-handle">${cbUsername ? '@' + cbUsername : ''}</div>
+          <div class="card-bio">${bio}</div>
+          <div class="card-tags">${tagsHtml}</div>
+          <div class="card-actions">
+            <a href="${detailLink}" class="btn-watch">View Profile</a>
+            ${followLink ? `<a href="${followLink}" target="_blank" class="btn-follow">Follow</a>` : ''}
+          </div>
+        </div>`;
+      return card;
+    }
+
+    function buildPlaceholder() {
+      const el = document.createElement('a');
+      el.href = 'https://form.typeform.com/to/RK7h1dMH';
+      el.target = '_blank';
+      el.className = 'card-placeholder';
+      el.innerHTML = `<div class="placeholder-icon">✦</div><div class="placeholder-text">Your name<br>could be here</div>`;
+      return el;
+    }
+
+    async function init() {
+      const grid    = document.getElementById('muse-grid');
+      const loading = document.getElementById('loading');
+      const error   = document.getElementById('error');
+
+      const records = await fetchMuses();
+      loading.style.display = 'none';
+
+      if (!records) {
+        error.style.display = 'block';
+        error.innerHTML = `<p class="error-text">Could not load muses. Check worker configuration.</p>`;
+        return;
+      }
+
+      document.getElementById('live-count').textContent  = 'None right now';
+      document.getElementById('total-count').textContent = records.length;
+
+      records.forEach((record, i) => grid.appendChild(buildCard(record, i)));
+      grid.appendChild(buildPlaceholder());
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const filter = btn.dataset.filter;
+          document.querySelectorAll('.card').forEach(card => {
+            if (filter === 'all')            card.style.display = '';
+            else if (filter === 'live')      card.style.display = card.dataset.live === 'live' ? '' : 'none';
+            else if (filter === 'fansly')    card.style.display = card.dataset.fansly === 'true' ? '' : 'none';
+            else if (filter === 'chaturbate') card.style.display = card.dataset.cb === 'true' ? '' : 'none';
+          });
+        });
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
